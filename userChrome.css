@@ -1,0 +1,153 @@
+:root, #screenshots-component *{
+  /* shy-fox */
+  --shy-accent-color: #E91E63;
+  --shy-color: var(--shy-accent-color);
+  --rounding: 11.5px;
+  --big-rounding: 15px;
+  --bt-col: var(--toolbarbutton-icon-fill);
+  --tb-col: var(--toolbar-bgcolor, tomato);
+  --bg-col: var(--lwt-accent-color, var(--ActiveCaption, tomato));
+
+  /* dropdown */
+  --ui-sidebar-collapsed-width: 35px;
+  --ui-sidebar-extended-width: 300px;
+  --ui-bookmarks-hover-debounce: 200ms;
+  --ui-bookmarks-animation-speed: 200ms;
+  --ui-bookmarks-inner-height: 20px; /* NOTE: this is affected by font typeface/size */
+
+  --ui-sidebar-hover-debounce: 0ms;
+  --ui-sidebar-animation-speed: 300ms;
+}
+
+@media (-moz-bool-pref: "shyfox.fill.accent.with.icons.fill.color"){
+  :root{--shy-color: var(--toolbar-color, var(--shy-accent-color)) !important;}
+}
+
+.sidebar-panel {
+  background-color: -moz-dialog !important;
+}
+
+/* ============================================================================
+ * Navigation bar tweaks
+ * ========================================================================= */
+
+/* Remove margin around URLbar */
+* { --urlbar-container-height: var(--urlbar-min-height) !important; }
+
+/* Remove the window-drag spacers that are displayed around the tabs when the window is not maximized */
+.titlebar-spacer[type="pre-tabs"], .titlebar-spacer[type="post-tabs"] { display: none !important; }
+
+/* ============================================================================
+ * Hide tab bar (with window controls in navbar) + Sidebar autohide
+ * ========================================================================= */
+
+#TabsToolbar { visibility: collapse !important; }
+#nav-bar .titlebar-buttonbox-container { display: flex !important; }
+
+#sidebar-header, #sidebar-splitter { display: none !important; }
+
+#sidebar-box {
+  min-width: var(--ui-sidebar-collapsed-width) !important;
+  max-width: var(--ui-sidebar-collapsed-width) !important;
+  z-index: 3 !important;
+}
+#sidebar-box:hover #sidebar { min-width: var(--ui-sidebar-extended-width) !important; }
+#sidebar { transition: min-width var(--ui-sidebar-animation-speed) ease-out var(--ui-sidebar-hover-debounce); }
+
+/*------- END dropdown --------*/
+
+/* current tab loading progress */
+#main-window{
+  &:has(.tabbrowser-tab[selected][busy]                        ){--shy-tab-load-pcent: 20%;}
+  &:has(.tabbrowser-tab[selected][busy][pendingicon]           ){--shy-tab-load-pcent: 50%;}
+  &:has(.tabbrowser-tab[selected][busy][pendingicon][progress] ){--shy-tab-load-pcent: 85%;}
+  &:has(.tabbrowser-tab[selected][busy][progress]              ){--shy-tab-load-pcent: 95%;}
+}
+
+/* centered navbar text */
+#urlbar:not(:is(
+  [breakout][breakout-extend],
+:focus-within
+) ) {
+  #urlbar-input {
+    text-align: center !important;
+  }
+}
+
+/* tab loading progress in urlbar background */
+#main-window:not([customizing]):has(.tabbrowser-tab[selected][busy]) #urlbar:not([breakout-extend]) #urlbar-background {
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--shy-color) 30%, transparent) 0 var(--shy-tab-load-pcent),
+    color-mix(in srgb, var(--bt-col) 10%, transparent) var(--shy-tab-load-pcent) 100%
+  ) !important;
+}
+
+/* remove rounded url input */
+#urlbar-input {
+  border-radius: 0 !important;
+}
+
+/* show bg even on non floating navbar address */
+#urlbar[breakout-extend] {
+    /* cool translucent background */
+  &:before {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    border-radius: var(--rounding);
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    background-color: color-mix(in srgb, black 40%, transparent);
+  }
+}
+
+
+/* ------ compact extension ------ */
+#unified-extensions-view {
+  --uei-icon-size: 24px;
+  --extensions-in-row: 4;
+  width: 100% !important;
+  :is(
+      toolbarseparator,
+      .unified-extensions-item-menu-button.subviewbutton,
+      .unified-extensions-item-action-button .unified-extensions-item-contents
+    ) {
+    display: none !important;
+  }
+  :is(
+      #overflowed-extensions-list,
+  #unified-extensions-area,
+  .unified-extensions-list 
+    ) {
+    display: grid !important;
+    grid-template-columns: repeat(var(--extensions-in-row),auto);
+    justify-items: center !important;
+    align-items: center !important;
+  }
+  :is(
+      :is(
+        #unified-extensions-area,
+  .unified-extensions-list
+      ) .unified-extensions-item,
+  .unified-extensions-list
+    ) {
+    max-width: max-content;
+  }
+  #unified-extensions-area {
+    margin-bottom: 5px !important;
+    border-top: 1px solid var(--panel-separator-color);
+    border-bottom: 1px solid var(--panel-separator-color);
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+  }
+  .unified-extensions-item[attention] > .unified-extensions-item-action-button.subviewbutton {
+    background-position: left calc(var(--uei-dot-horizontal-position-in-panel) - 4px) bottom var(--uei-dot-vertical-position-in-panel) !important;
+  }
+  .unified-extensions-item-action-button {
+    padding-right: 3px !important;
+  }
+}
+/* ------ end compact extension ------ */

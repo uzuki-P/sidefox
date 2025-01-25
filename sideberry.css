@@ -1,0 +1,12 @@
+/* child tab no padding on not hover */
+#root:not(:hover) .Tab[data-lvl]:not([data-lvl="0"]) { --tabs-indent: 0px; }
+
+/* audio icon animation */
+.Tab .body:has(.audio) {
+  .audio {
+    margin: 6px 0 0 0px;
+		width: 5px;
+		height: 5px;
+  }
+  .title { margin-left: -14px; }
+}
