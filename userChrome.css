@@ -1,5 +1,5 @@
-:root, #screenshots-component *{
-  /* shy-fox */
+:root, *{
+  /* shy-fox var */
   --shy-accent-color: #E91E63;
   --shy-color: var(--shy-accent-color);
   --rounding: 11.5px;
@@ -8,28 +8,18 @@
   --tb-col: var(--toolbar-bgcolor, tomato);
   --bg-col: var(--lwt-accent-color, var(--ActiveCaption, tomato));
 
-  /* dropdown */
+  /* DownTown var */
   --ui-sidebar-collapsed-width: 35px;
   --ui-sidebar-extended-width: 300px;
   --ui-bookmarks-hover-debounce: 200ms;
   --ui-bookmarks-animation-speed: 200ms;
   --ui-bookmarks-inner-height: 20px; /* NOTE: this is affected by font typeface/size */
-
   --ui-sidebar-hover-debounce: 0ms;
   --ui-sidebar-animation-speed: 300ms;
 }
 
-@media (-moz-bool-pref: "shyfox.fill.accent.with.icons.fill.color"){
-  :root{--shy-color: var(--toolbar-color, var(--shy-accent-color)) !important;}
-}
-
-.sidebar-panel {
-  background-color: -moz-dialog !important;
-}
-
-/* ============================================================================
- * Navigation bar tweaks
- * ========================================================================= */
+/* Add bg to history/bookmark panel */
+.sidebar-panel { background-color: -moz-dialog !important; }
 
 /* Remove margin around URLbar */
 * { --urlbar-container-height: var(--urlbar-min-height) !important; }
@@ -37,26 +27,23 @@
 /* Remove the window-drag spacers that are displayed around the tabs when the window is not maximized */
 .titlebar-spacer[type="pre-tabs"], .titlebar-spacer[type="post-tabs"] { display: none !important; }
 
-/* ============================================================================
- * Hide tab bar (with window controls in navbar) + Sidebar autohide
- * ========================================================================= */
-
+ /* Hide normal tabbar */
 #TabsToolbar { visibility: collapse !important; }
 #nav-bar .titlebar-buttonbox-container { display: flex !important; }
 
+/* Sidebar tweaks and show on hover */
 #sidebar-header, #sidebar-splitter { display: none !important; }
-
 #sidebar-box {
   min-width: var(--ui-sidebar-collapsed-width) !important;
   max-width: var(--ui-sidebar-collapsed-width) !important;
   z-index: 3 !important;
 }
 #sidebar-box:hover #sidebar { min-width: var(--ui-sidebar-extended-width) !important; }
-#sidebar { transition: min-width var(--ui-sidebar-animation-speed) ease-out var(--ui-sidebar-hover-debounce); }
+#sidebar {
+  transition: min-width var(--ui-sidebar-animation-speed) ease-out var(--ui-sidebar-hover-debounce); 
+}
 
-/*------- END dropdown --------*/
-
-/* current tab loading progress */
+/* set current tab loading progress */
 #main-window{
   &:has(.tabbrowser-tab[selected][busy]                        ){--shy-tab-load-pcent: 20%;}
   &:has(.tabbrowser-tab[selected][busy][pendingicon]           ){--shy-tab-load-pcent: 50%;}
@@ -103,7 +90,6 @@
     background-color: color-mix(in srgb, black 40%, transparent);
   }
 }
-
 
 /* ------ compact extension ------ */
 #unified-extensions-view {
