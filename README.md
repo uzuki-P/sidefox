@@ -8,3 +8,7 @@ sideberry & sidebar.
 Code mostly taken from [ShyFox](https://github.com/Naezr/ShyFox) for the sweet colored
 address bar and [DownTownUI](https://github.com/oviung/DownToneUI-Firefox) for
 the simple hoverable sideberry & sidebar.
+
+Preview:
+
+![Preview](preview.png)
